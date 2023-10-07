@@ -45,7 +45,7 @@ def list_files(path):
 
         data = [data for data in data if os.path.isfile(os.path.join(path, data))]
 
-        file_list = ""
+        file_list = "\n"
         for data in data:
             file_list += ("-> " + data + "\n")
             

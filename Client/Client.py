@@ -1,7 +1,7 @@
 from socket import *
 import os
 
-from cdefs import menu
+from c_Functions import menu
 
 HOST = '127.0.0.1'
 PORT = 8080
@@ -22,14 +22,14 @@ def send_request(command):
                 print(response)
             elif response.startswith('ARQUIVO'):
                 parts = response.split(' ', 2)
-                arquivo_nome = parts[1]
-                arquivo_conteudo = parts[2]
+                fileName = parts[1]
+                fileContent = parts[2]
 
-                caminho_arquivo = os.path.join(os.getcwd(), arquivo_nome)
-                with open(caminho_arquivo, 'wb') as arquivo:
-                    arquivo.write(arquivo_conteudo.encode('utf-8'))
+                filePath = os.path.join(os.getcwd(), fileName)
+                with open(filePath, 'wb') as file:
+                    file.write(fileContent.encode('utf-8'))
 
-                print(f'Arquivo {arquivo_nome} recebido e salvo localmente!')
+                print(f'Arquivo {fileName} recebido e salvo localmente!')
             else:
                 print(response)
         else:
@@ -40,6 +40,9 @@ def send_request(command):
         error_message = f'Erro ao enviar/receber dados: {str(e)}'
         print(error_message)
         return error_message
+    
+    #Para não sai o "none" no final sempre, so retorne o response
+    # return response
 
 while True:
     try:

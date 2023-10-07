@@ -1,12 +1,10 @@
 from socket import *
 import threading
 import os
-# import sys
-# sys.path.append("./Functions")
 
-from defs import get_hour, get_info, list_files
+from s_Functions import get_hour, get_info, list_files
 
-PATH = "./Server/Archives"
+PATH = "./Server/archives"
 
 # Configurações do servidor
 HOST = 'localhost'
@@ -19,9 +17,6 @@ server.bind((HOST, PORT))
 server.listen(5)
 
 print('Servidor pronto para receber conexões...')
-
-# conn, ender = server.accept()
-# print ('Conectado em', ender)
 
 # Função para lidar com as conexões dos clientes
 def handleClient(clientSocket):
@@ -47,16 +42,16 @@ def process_request(request):
         return get_hour()
     
     elif request.startswith('ARQUIVO'):
-        arquivo_nome = request.split(' ')[1]
+        fileName = request.split(' ')[1]
 
         # Verifica se o arquivo existe no diretório
-        arquivo_caminho = os.path.join(PATH, arquivo_nome)
-        if os.path.exists(arquivo_caminho) and os.path.isfile(arquivo_caminho):
-            with open(arquivo_caminho, 'rb') as arquivo:
-                arquivo_conteudo = arquivo.read()
-            return f'ARQUIVO {arquivo_nome} {arquivo_conteudo.decode("utf-8")}'
+        filePath = os.path.join(PATH, fileName)
+        if os.path.exists(filePath) and os.path.isfile(filePath):
+            with open(filePath, 'rb') as file:
+                fileContent = file.read()
+            return f'ARQUIVO {fileName} {fileContent.decode("utf-8")}'
 
-        return f'ARQUIVO {arquivo_nome} não encontrado no diretório.'
+        return f'ARQUIVO {fileName} não encontrado no diretório.'
     
     
     elif request == "4":
