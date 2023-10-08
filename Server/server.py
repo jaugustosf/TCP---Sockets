@@ -49,7 +49,7 @@ def process_request(request):
         if os.path.exists(filePath) and os.path.isfile(filePath):
             with open(filePath, 'rb') as file:
                 fileContent = file.read()
-            return f'ARQUIVO {fileName} {fileContent.decode("utf-8")}'
+            return f'ARQUIVO {fileName} {fileContent.decode(FORMAT)}'
 
         return f'ARQUIVO {fileName} não encontrado no diretório.'
     

@@ -11,7 +11,6 @@ SIZE = 2048
 client = socket(AF_INET, SOCK_STREAM)
 client.connect((HOST, PORT))
 
-# Função para enviar comandos ao servidor e receber respostas
 def send_request(command):
     try:
         client.send(command.encode('utf-8'))
@@ -31,18 +30,14 @@ def send_request(command):
 
                 print(f'Arquivo {fileName} recebido e salvo localmente!')
             else:
-                print(response)
+                print(f"\nResposta: {response}")
         else:
             print('Resposta vazia recebida do servidor.')
-
 
     except Exception as e:
         error_message = f'Erro ao enviar/receber dados: {str(e)}'
         print(error_message)
         return error_message
-    
-    #Para não sai o "none" no final sempre, so retorne o response
-    # return response
 
 while True:
     try:
@@ -64,8 +59,6 @@ while True:
             break
         else:
             response = 'Comando inválido.'
-
-        print(f"\nResposta: {response}")
 
     except KeyboardInterrupt:
         client.close()
