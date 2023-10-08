@@ -6,7 +6,6 @@ from s_Functions import get_hour, get_info, list_files
 
 PATH = "./Server/archives"
 
-# Configurações do servidor
 HOST = 'localhost'
 PORT = 8080
 FORMAT = 'utf-8'
@@ -41,7 +40,7 @@ def process_request(request):
         print("Enviando hora atual...")
         return get_hour()
     
-    elif request.startswith('ARQUIVO'):
+    elif request.startswith("3"):
         fileName = request.split(' ')[1]
 
         # Verifica se o arquivo existe no diretório
@@ -49,9 +48,9 @@ def process_request(request):
         if os.path.exists(filePath) and os.path.isfile(filePath):
             with open(filePath, 'rb') as file:
                 fileContent = file.read()
-            return f'ARQUIVO {fileName} {fileContent.decode(FORMAT)}'
+            return f'3 {fileName} {fileContent.decode(FORMAT)}'
 
-        return f'ARQUIVO {fileName} não encontrado no diretório.'
+        return f'3 {fileName} não encontrado no diretório.'
     
     
     elif request == "4":

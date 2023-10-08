@@ -12,32 +12,21 @@ client = socket(AF_INET, SOCK_STREAM)
 client.connect((HOST, PORT))
 
 def send_request(command):
-    try:
-        client.send(command.encode('utf-8'))
-        response = client.recv(1024).decode('utf-8')
+    client.send(command.encode(FORMAT))
+    response = client.recv(SIZE).decode(FORMAT)
 
-        if response:
-            if 'ARQUIVO' in response and 'não encontrado no diretório.' in response:
-                print(response)
-            elif response.startswith('ARQUIVO'):
-                parts = response.split(' ', 2)
-                fileName = parts[1]
-                fileContent = parts[2]
+    if response.startswith('3'):
+        parts = response.split(' ', 2)
+        fileName = parts[1]
+        fileContent = parts[2]
 
-                filePath = os.path.join(os.getcwd(), fileName)
-                with open(filePath, 'wb') as file:
-                    file.write(fileContent.encode('utf-8'))
+        filePath = os.path.join(os.getcwd(), fileName)
+        with open(filePath, 'wb') as file:
+            file.write(fileContent.encode(FORMAT))
 
-                print(f'Arquivo {fileName} recebido e salvo localmente!')
-            else:
-                print(f"\nResposta: {response}")
-        else:
-            print('Resposta vazia recebida do servidor.')
-
-    except Exception as e:
-        error_message = f'Erro ao enviar/receber dados: {str(e)}'
-        print(error_message)
-        return error_message
+        print(f'Arquivo {fileName} recebido e salvo localmente!')
+    
+    print(f"\nResposta: {response}")
 
 while True:
     try:
@@ -49,8 +38,8 @@ while True:
         elif option == "2":
             response = send_request("2")
         elif option.startswith("3"):
-            nome_arquivo = option.split(' ')[1]
-            response = send_request('ARQUIVO ' + nome_arquivo)
+            fileName = option.split(' ')[1]
+            response = send_request('3 ' + fileName)
         elif option == "4":
             response = send_request("4")
         elif option == "5":
