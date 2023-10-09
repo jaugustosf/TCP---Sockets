@@ -9,7 +9,7 @@ PATH = "./Server/archives"
 HOST = 'localhost'
 PORT = 8080
 FORMAT = 'utf-8'
-SIZE = 2048
+SIZE = 100000
 
 server = socket(AF_INET, SOCK_STREAM)
 server.bind((HOST, PORT))
@@ -48,7 +48,7 @@ def process_request(request):
         if os.path.exists(filePath) and os.path.isfile(filePath):
             with open(filePath, 'rb') as file:
                 fileContent = file.read()
-            return f'3 {fileName} {fileContent.decode(FORMAT)}'
+            return f'3 {fileName} {fileContent.decode("latin-1")}'
 
         return f'3 {fileName} não encontrado no diretório.'
     

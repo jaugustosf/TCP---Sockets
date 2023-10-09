@@ -6,7 +6,7 @@ from c_Functions import menu
 HOST = '127.0.0.1'
 PORT = 8080
 FORMAT = 'utf-8'
-SIZE = 2048
+SIZE = 100000
 
 client = socket(AF_INET, SOCK_STREAM)
 client.connect((HOST, PORT))
@@ -22,11 +22,11 @@ def send_request(command):
 
         filePath = os.path.join(os.getcwd(), fileName)
         with open(filePath, 'wb') as file:
-            file.write(fileContent.encode(FORMAT))
+            file.write(fileContent.encode("latin-1"))
 
         print(f'Arquivo {fileName} recebido e salvo localmente!')
-    
-    print(f"\nResposta: {response}")
+    else:
+        print(f"\nResposta: {response}")
 
 while True:
     try:
